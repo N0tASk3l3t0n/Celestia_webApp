@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    
+<!-- Location input section -->
+    <h2>Enter Your Location</h2>
+    <label for="city">City Name:</label>
+    <input type="text" id="city" placeholder="e.g. Melbourne">
+    <br><br>
+    <p>Or enter coordinates manually:</p>
+    <label for="lat">Latitude:</label>
+    <input type="text" id="lat" placeholder="e.g. -37.8136">
+    <br><br>
+    <label for="lng">Longitude:</label>
+    <input type="text" id="lng" placeholder="e.g. 144.9631">
+    <br><br>
+    <button onclick="useMyLocation()">Use My Location</button>
+    <hr>
+    <!-- Date and time picker -->
+    <h2>Select Date and Time</h2>
+    <label for="date">Date:</label>
+    <input type="date" id="date">
+    <br><br>
+    <label for="time">Time:</label>
+    <input type="time" id="time">
+    <br><br>
+    <!-- Error message placeholder -->
+    <p id="error-message" style="color: red;"></p>
+    <!-- Search button -->
+    <button onclick="searchPlanets()">Search</button>
+    <hr>
+    <!-- Footer -->
+    <p>Celestia — Planet Tracker</p>
+    
+</body>
+</html>
+
+</body>
