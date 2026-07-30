@@ -1,44 +1,213 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celestia</title>
+    <title>Celestia | Planet Tracker</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    
-<!-- Location input section -->
-    <h2>Enter Your Location</h2>
-    <label for="city">City Name:</label>
-    <input type="text" id="city" placeholder="e.g. Melbourne">
-    <br><br>
-    <p>Or enter coordinates manually:</p>
-    <label for="lat">Latitude:</label>
-    <input type="text" id="lat" placeholder="e.g. -37.8136">
-    <br><br>
-    <label for="lng">Longitude:</label>
-    <input type="text" id="lng" placeholder="e.g. 144.9631">
-    <br><br>
-    <button onclick="useMyLocation()">Use My Location</button>
-    <hr>
-    <!-- Date and time picker -->
-    <h2>Select Date and Time</h2>
-    <label for="date">Date:</label>
-    <input type="date" id="date">
-    <br><br>
-    <label for="time">Time:</label>
-    <input type="time" id="time">
-    <br><br>
-    <!-- Error message placeholder -->
-    <p id="error-message" style="color: red;"></p>
-    <!-- Search button -->
-    <button onclick="searchPlanets()">Search</button>
-    <hr>
-    <!-- Footer -->
-    <p>Celestia — Planet Tracker</p>
-    
-</body>
-</html>
+
+<div class="container">
+
+    <header>
+        <h1>🌌 Celestia</h1>
+        <p class="subtitle">
+            Discover which planets are visible from your location.
+        </p>
+    </header>
+
+    <form action="{{ url_for('details') }}" method="POST">
+
+        <!-- LOCATION SECTION -->
+
+        <section class="card">
+
+            <h2>📍 Location</h2>
+
+            <p>
+                Enter either a city name or your latitude and longitude.
+            </p>
+
+            <label for="city">City / Town</label>
+
+            <input
+                type="text"
+                id="city"
+                name="city"
+                placeholder="Example: Melbourne">
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <div class="coordinate-grid">
+
+                <div>
+                    <label for="lat">Latitude</label>
+
+                    <input
+                        type="text"
+                        id="lat"
+                        name="lat"
+                        placeholder="-37.8136">
+                </div>
+
+                <div>
+                    <label for="lng">Longitude</label>
+
+                    <input
+                        type="text"
+                        id="lng"
+                        name="lng"
+                        placeholder="144.9631">
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="secondary-btn"
+                onclick="useMyLocation()">
+
+                📡 Use Current Location
+
+            </button>
+
+        </section>
+
+        <!-- DATE/TIME SECTION -->
+
+        <section class="card">
+
+            <h2>📅 Observation Time</h2>
+
+            <div class="date-grid">
+
+                <div>
+
+                    <label for="date">Date</label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        required>
+
+                </div>
+
+                <div>
+
+                    <label for="time">Time</label>
+
+                    <input
+                        type="time"
+                        id="time"
+                        name="time"
+                        required>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ERROR MESSAGE -->
+
+        <p id="error-message" class="error-message"></p>
+
+        <!-- SEARCH BUTTON -->
+
+        <button class="search-btn" type="submit">
+
+            🔭 Search the Sky
+
+        </button>
+
+    </form>
+
+    <!-- FEATURES -->
+
+    <section class="card">
+
+        <h2>What You'll See</h2>
+
+        <ul class="features">
+
+            <li>🪐 Visible planets</li>
+
+            <li>🌅 Planet rise & set times</li>
+
+            <li>🧭 Altitude and azimuth</li>
+
+            <li>⭐ Constellation information</li>
+
+            <li>☁ Cloud cover forecast</li>
+
+            <li>🌡 Temperature and weather conditions</li>
+
+            <li>✅ Viewing recommendation</li>
+
+        </ul>
+
+    </section>
+
+    <footer>
+
+        <p>
+            Celestia &copy; 2026 | Planet Visibility Tracker
+        </p>
+
+    </footer>
+
+</div>
+
+<script>
+
+function useMyLocation() {
+
+    const error = document.getElementById("error-message");
+
+    if (!navigator.geolocation) {
+
+        error.textContent =
+            "Your browser does not support geolocation.";
+
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            document.getElementById("lat").value =
+                position.coords.latitude.toFixed(6);
+
+            document.getElementById("lng").value =
+                position.coords.longitude.toFixed(6);
+
+            document.getElementById("city").value = "";
+
+            error.textContent = "";
+
+        },
+
+        function() {
+
+            error.textContent =
+                "Unable to determine your location.";
+
+        }
+
+    );
+
+}
+
+</script>
 
 </body>
+</html>
+```

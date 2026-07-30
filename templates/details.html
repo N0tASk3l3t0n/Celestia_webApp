@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestia - Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <h1>Celestia</h1>
+    <a href="/">Back to search</a>
+
+    <hr>
+
+    <!-- Location and time info -->
+    <h2>Results for {{ city }}</h2>
+    <p>Date: {{ date }}</p>
+    <p>Time: {{ time }}</p>
+    <p>Latitude: {{ lat }} | Longitude: {{ lng }}</p>
+
+    <hr>
+
+    <!-- Weather conditions -->
+    <h2>Viewing Conditions</h2>
+    <p>Cloud cover: {{ cloud_cover }}%</p>
+    <p>Rating: {{ rating }}</p>
+
+    <hr>
+
+    <!-- Planet results -->
+    <h2>Planet Positions</h2>
+
+    {% for planet in planets %}
+
+        <h3>{{ planet.name }}</h3>
+
+        <p>Altitude: {{ planet.altitude }}°</p>
+        <p>Azimuth: {{ planet.azimuth }}°</p>
+        <p>Rise time: {{ planet.rise_time }}</p>
+        <p>Set time: {{ planet.set_time }}</p>
+
+        {% if planet.is_visible %}
+            <p style="color: green;">✅ Visible tonight</p>
+        {% else %}
+            <p style="color: red;">❌ Not visible tonight</p>
+        {% endif %}
+
+        <hr>
+
+    {% endfor %}
+
+    <!-- Save observation note -->
+    <h2>Save an Observation Note</h2>
+
+    <form action="/save_observation" method="POST">
+
+        <input type="hidden" name="city" value="{{ city }}">
+        <input type="hidden" name="lat" value="{{ lat }}">
+        <input type="hidden" name="lng" value="{{ lng }}">
+        <input type="hidden" name="date" value="{{ date }}">
+
+        <label for="note">Your note:</label>
+        <br>
+        <textarea
+            id="note"
+            name="note"
+            rows="4"
+            cols="40"
+            placeholder="Write what you saw tonight...">
+        </textarea>
+        <br><br>
+
+        <button type="submit">Save Note</button>
+
+    </form>
+
+    <br>
+    <a href="/log">View past observations</a>
+
+    <hr>
+
+    <p>Celestia — Planet Tracker</p>
+
+</body>
+</html>
