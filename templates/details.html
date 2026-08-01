@@ -4,83 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Celestia - Results</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <h1>Celestia</h1>
-    <a href="/">Back to search</a>
+    <h1>🌌 Celestia</h1>
+    <h2>Planet Visibility Results</h2>
 
     <hr>
 
-    <!-- Location and time info -->
-    <h2>Results for {{ city }}</h2>
-    <p>Date: {{ date }}</p>
-    <p>Time: {{ time }}</p>
-    <p>Latitude: {{ lat }} | Longitude: {{ lng }}</p>
+    <h3>Location</h3>
+
+    <p><strong>City:</strong> {{ city }}</p>
+    <p><strong>Latitude:</strong> {{ latitude }}</p>
+    <p><strong>Longitude:</strong> {{ longitude }}</p>
 
     <hr>
 
-    <!-- Weather conditions -->
-    <h2>Viewing Conditions</h2>
-    <p>Cloud cover: {{ cloud_cover }}%</p>
-    <p>Rating: {{ rating }}</p>
+    <h3>Observation Time</h3>
+
+    <p><strong>Date:</strong> {{ date }}</p>
+    <p><strong>Time:</strong> {{ time }}</p>
 
     <hr>
 
-    <!-- Planet results -->
-    <h2>Planet Positions</h2>
 
-    {% for planet in planets %}
+    <hr>
 
-        <h3>{{ planet.name }}</h3>
+    <h3>Visible Planets</h3>
 
-        <p>Altitude: {{ planet.altitude }}°</p>
-        <p>Azimuth: {{ planet.azimuth }}°</p>
-        <p>Rise time: {{ planet.rise_time }}</p>
-        <p>Set time: {{ planet.set_time }}</p>
+    <table border="1" cellpadding="8">
 
-        {% if planet.is_visible %}
-            <p style="color: green;">✅ Visible tonight</p>
-        {% else %}
-            <p style="color: red;">❌ Not visible tonight</p>
-        {% endif %}
+        <tr>
+            <th>Planet</th>
+            <th>Visible</th>
+            <th>Altitude (°)</th>
+            <th>Azimuth (°)</th>
+            <th>Distance (AU)</th>
+        </tr>
 
-        <hr>
+        {% for planet in planets %}
 
-    {% endfor %}
+        <tr>
 
-    <!-- Save observation note -->
-    <h2>Save an Observation Note</h2>
+            <td>{{ planet.name }}</td>
 
-    <form action="/save_observation" method="POST">
+            <td>
+                {% if planet.visible %}
+                    ✅ Yes
+                {% else %}
+                    ❌ No
+                {% endif %}
+            </td>
 
-        <input type="hidden" name="city" value="{{ city }}">
-        <input type="hidden" name="lat" value="{{ lat }}">
-        <input type="hidden" name="lng" value="{{ lng }}">
-        <input type="hidden" name="date" value="{{ date }}">
+            <td>{{ planet.altitude }}</td>
 
-        <label for="note">Your note:</label>
-        <br>
-        <textarea
-            id="note"
-            name="note"
-            rows="4"
-            cols="40"
-            placeholder="Write what you saw tonight...">
-        </textarea>
-        <br><br>
+            <td>{{ planet.azimuth }}</td>
 
-        <button type="submit">Save Note</button>
+            <td>{{ planet.distance }}</td>
 
-    </form>
+        </tr>
+
+        {% endfor %}
+
+    </table>
 
     <br>
-    <a href="/log">View past observations</a>
 
-    <hr>
-
-    <p>Celestia — Planet Tracker</p>
+    <a href="{{ url_for('home') }}">
+        ← Back to Search
+    </a>
 
 </body>
 </html>
