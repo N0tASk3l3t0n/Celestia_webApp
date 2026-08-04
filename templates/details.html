@@ -29,6 +29,46 @@
 
     <hr>
 
+    <h2>☁ Weather Conditions</h2>
+
+    <table border="1" cellpadding="8">
+
+    <tr>
+        <th>Temperature</th>
+        <td>{{ weather.temperature }} °C</td>
+    </tr>
+
+    <tr>
+        <th>Cloud Cover</th>
+        <td>{{ weather.cloud_cover }}%</td>
+    </tr>
+
+    <tr>
+        <th>Viewing Rating</th>
+        <td>{{ weather.rating }}</td>
+    </tr>
+
+</table>
+
+<br>
+
+{% if weather.cloud_cover < 20 %}
+
+    <p> <strong>Excellent viewing conditions.</strong> Clear skies are expected, making it a great night for observing planets.</p>
+
+{% elif weather.cloud_cover < 50 %}
+
+    <p> <strong>Good viewing conditions.</strong> Some clouds may be present, but most planets should still be visible.</p>
+
+{% elif weather.cloud_cover < 80 %}
+
+    <p>⚠ <strong>Fair viewing conditions.</strong> Cloud cover could make it difficult to observe dimmer planets.</p>
+
+{% else %}
+
+    <p> <strong>Poor viewing conditions.</strong> Heavy cloud cover is likely to prevent planet viewing.</p>
+
+{% endif %}
 
     <hr>
 

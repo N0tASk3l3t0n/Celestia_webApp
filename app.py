@@ -88,7 +88,7 @@ def get_visible_planets(lat, lon, date, time):
 #------------------------
 #Open Meteo - Weather API 
 #------------------------
-def get_weather(lat, long):
+def get_weather(lat, lon):
     url = url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={lat}&longitude={lon}"
@@ -99,12 +99,87 @@ def get_weather(lat, long):
     data = response.json()
 
     return {
-        temperature": data["current"]["temperature_2m"],
+        "temperature": data["current"]["temperature_2m"],
 
         "cloud_cover": data["current"]["cloud_cover"]
     }
 
+#---------------------------
+#Cloud Cover Rating Function
+#---------------------------
+def viewing_rating(cloud_cover):
+    if cloud_cover < 20:
+        return "Excellent"
+    elif cloud_cover < 40:
+        return "Good"
+    elif cloud_cover < 60:
+        return "Fair"
+    elif cloud_cover < 80:
+        return "Poor"
+    else:
+        return "Very Poor"
 
+#---------------
+#Database Setup
+#---------------
+def get_db():
+    conn = sqlite3.conntect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+#Create the search history table
+def create_tables():
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS searches (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            city TEXT,
+
+            latitude REAL,
+
+            longitude REAL,
+
+            search_date TEXT,
+
+            search_time TEXT,
+
+            searched_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+#Save search
+def save_search(city, lat, lon, date, time):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO searches
+        (city, latitude, longitude, search_date, search_time)
+        VALUES (?, ?, ?, ?, ?)
+    """, (city, lat, lon, date, time))
+    conn.commit()
+    conn.close()
+
+#Get search history
+def get_search_history():
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM searches
+        ORDER BY searched_at DESC
+    """)
+    history = cursor.fetchall()
+    conn.close()
+    return history 
 
 #------------
 #App Routing
@@ -113,7 +188,8 @@ def get_weather(lat, long):
 #Home Route
 @app.route("/")
 def home():
-    return render_template("index.html")
+    history = get_search_history()
+    return render_template("index.html", history=history)
 
 
 @app.route("/details", methods=["POST"])
@@ -127,10 +203,14 @@ def details():
     if city:
         lat, lon = get_coordinates(city)
 
+    
     elif lat is None or lon is None:
         return render_template("index.html", error="City not found")
 
     planets = get_visible_planets(lat, lon, date, time)
+    weather = get_weather(lat, lon)
+    weather["rating"] = viewing_rating(weather["cloud_cover"])
+    save_search(city, lat, lon, date, time)
 
     return render_template(
         "details.html",
@@ -139,7 +219,8 @@ def details():
         longitude=lon,
         date=date,
         time=time,
-        planets=planets
+        planets=planets,
+        weather=weather
 
     )
 
