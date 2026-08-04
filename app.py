@@ -3,12 +3,12 @@ from flask import Flask, render_template, request
 import sqlite3
 import requests
 from skyfield.api import load, Topos, utc
-from skyfield.framelib import ecliptic_frame
 from datetime import datetime
 
 from geopy.geocoders import Nominatim
 
 app = Flask(__name__)
+
 #-----------------
 #Skyfield Setup
 #-----------------
@@ -85,7 +85,24 @@ def get_visible_planets(lat, lon, date, time):
 
     return results
 
+#------------------------
+#Open Meteo - Weather API 
+#------------------------
+def get_weather(lat, long):
+    url = url = (
+        f"https://api.open-meteo.com/v1/forecast?"
+        f"latitude={lat}&longitude={lon}"
+        "&current=temperature_2m,cloud_cover"
+    )
 
+    response = requests.get(url)
+    data = response.json()
+
+    return {
+        temperature": data["current"]["temperature_2m"],
+
+        "cloud_cover": data["current"]["cloud_cover"]
+    }
 
 
 
