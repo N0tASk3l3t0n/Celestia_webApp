@@ -21,7 +21,7 @@ planets = load('de421.bsp')
 earth = planets['earth']
 sun = planets ['sun']
 
-DATABASE = "celestia.db"
+DATABASE = "planets.db"
 
 geolocator = Nominatim(user_agent="celestia")
 
@@ -123,12 +123,13 @@ def viewing_rating(cloud_cover):
 #Database Setup
 #---------------
 def get_db():
-    conn = sqlite3.conntect(DATABASE)
+    conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
 #Create the search history table
 def create_tables():
+
     conn = get_db()
     cursor = conn.cursor()
 
@@ -151,6 +152,7 @@ def create_tables():
 
         )
     """)
+
     conn.commit()
     conn.close()
 
@@ -223,7 +225,15 @@ def details():
         weather=weather
 
     )
+#Search History Route
+@app.route("/history")
+def history():
+
+    searches = get_search_history()
+    return render_template("history.html", searches=searches)
+
 
 #Run the Flask app
 if __name__ == "__main__":
+    create_tables()
     app.run(debug=True)

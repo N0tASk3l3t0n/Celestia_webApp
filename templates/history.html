@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search History</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<h1>📜 Search History</h1>
+
+{% if searches %}
+
+<table border="1" cellpadding="8">
+
+<tr>
+
+    <th>City</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Searched At</th>
+
+</tr>
+
+{% for search in searches %}
+
+<tr>
+
+    <td>{{ search.city }}</td>
+
+    <td>{{ search.latitude }}</td>
+
+    <td>{{ search.longitude }}</td>
+
+    <td>{{ search.search_date }}</td>
+
+    <td>{{ search.search_time }}</td>
+
+    <td>{{ search.searched_at }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% else %}
+
+<p>No searches have been made yet.</p>
+
+{% endif %}
+
+<br>
+
+<form action="{{ url_for('home') }}" method="GET">
+    <button type="submit">Return Home</button>
+</form>
+
+</body>
+</html>

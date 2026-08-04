@@ -112,9 +112,9 @@
 
     <br>
 
-    <a href="{{ url_for('home') }}">
-        ← Back to Search
-    </a>
+    <form action="{{ url_for('home') }}" method="GET">
+    <button type="submit">🏠 Return to Home</button>
+</form>
 
 </body>
 </html>
