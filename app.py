@@ -4,6 +4,7 @@ import sqlite3
 import requests
 from skyfield.api import load, Topos, utc
 from datetime import datetime
+NASA_API_KEY = "oMEgevkHMrRxKjC6g06pJ4Zfyhl94u7TxWUVCmfr"
 
 from geopy.geocoders import Nominatim
 
@@ -104,6 +105,23 @@ def get_weather(lat, lon):
         "cloud_cover": data["current"]["cloud_cover"]
     }
 
+#-------------------------
+#NASA Image of the Day API
+#-------------------------
+def get_apod():
+    url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_API_KEY}"
+    response = requests.get(url)
+    if response.status_code != 200:
+        return None
+    data = response.json()
+    return {
+        "title": data.get("title"),
+        "date": data.get("date"),
+        "image":data.get("url"),
+        "explanation": data.get("explanation"),
+        "copyright": data.get("copyright", "NASA")
+    }
+
 #---------------------------
 #Cloud Cover Rating Function
 #---------------------------
@@ -191,7 +209,8 @@ def get_search_history():
 @app.route("/")
 def home():
     history = get_search_history()
-    return render_template("index.html", history=history)
+    apod = get_apod()
+    return render_template("index.html", history=history, apod=apod)
 
 
 @app.route("/details", methods=["POST"])

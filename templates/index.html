@@ -20,8 +20,32 @@
         </p>
     </header>
 
+    <hr>
+
+<h2>🌌 NASA Astronomy Picture of the Day</h2>
+
+{% if apod %}
+
+<h3>{{ apod.title }}</h3>
+
+<p><strong>{{ apod.date }}</strong></p>
+
+<img
+    src="{{ apod.image }}"
+    alt="{{ apod.title }}"
+    width="600">
+
+<p>{{ apod.explanation[:250] }}...</p>
+
+<p><em>Image Credit: {{ apod.copyright }}</em></p>
+
+{% endif %}
+
+<hr>
+    
     <form action="{{ url_for('details') }}" method="POST">
 
+        
         <!-- LOCATION SECTION -->
 
         <section class="card">
@@ -132,7 +156,7 @@
     <br><br>
 
 <form action="{{ url_for('history') }}" method="GET">
-    <button type="submit">📜 View Search History</button>
+    <button type="submit">View Search History</button>
 </form>
 
     <!-- FEATURES -->
