@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <h1>🌌 Celestia</h1>
+    <h1>Celestia</h1>
     <h2>Planet Visibility Results</h2>
 
     <hr>
@@ -29,7 +29,7 @@
 
     <hr>
 
-    <h2>☁ Weather Conditions</h2>
+    <h2>Weather Conditions</h2>
 
     <table border="1" cellpadding="8">
 
@@ -92,9 +92,9 @@
 
             <td>
                 {% if planet.visible %}
-                    ✅ Yes
+                    Yes
                 {% else %}
-                    ❌ No
+                    No
                 {% endif %}
             </td>
 
@@ -113,7 +113,7 @@
     <br>
 
     <form action="{{ url_for('home') }}" method="GET">
-    <button type="submit">🏠 Return to Home</button>
+    <button type="submit">Return to Home</button>
 </form>
 
 </body>

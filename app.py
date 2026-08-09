@@ -225,7 +225,7 @@ def details():
         lat, lon = get_coordinates(city)
 
     
-    elif lat is None or lon is None:
+    elif not lat or not lon:
         return render_template("index.html", error="City not found")
 
     planets = get_visible_planets(lat, lon, date, time)
