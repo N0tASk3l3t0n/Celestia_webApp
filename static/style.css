@@ -11,3 +11,11 @@ body {
     color: #e5e7eb;
     line-height: 1.6;
 }
+
+/* ---------- Main page ---------- */
+
+.page-container {
+    width: min(1200px, 92%);
+    margin: 0 auto;
+    padding: 40px 0;
+}

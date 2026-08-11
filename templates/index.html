@@ -11,14 +11,37 @@
 
 <body>
 
-<div class="container">
-
-    <header>
+<div class="page-container">
+    <!-- HEADER -->
+    <header class="site-header">
         <h1>Celestia</h1>
         <p class="subtitle">
             Discover which planets are visible from your location.
         </p>
     </header>
+<!-- MAIN TWO-COLUMN AREA -->
+
+    <div class="home-grid">
+
+
+        <!-- LEFT SIDE -->
+
+        <main class="search-panel">
+
+            <form action="{{ url_for('details') }}" method="POST">
+
+                <!-- LOCATION SECTION -->
+
+                <section class="card">
+
+                    <h2>Location</h2>
+
+                    <p class="section-description">
+                        Enter a city or use latitude and longitude.
+                    </p>
+
+                    
+
 
     <hr>
 
