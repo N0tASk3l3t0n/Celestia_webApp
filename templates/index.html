@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Celestia | Planet Tracker</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
@@ -99,178 +99,200 @@
 
                 <!-- DATE/TIME SECTION -->
 
+                 <section class="card">
+
+                    <h2>Observation Time</h2>
 
 
-    <hr>
+                    <div class="date-grid">
 
-<h2>NASA Astronomy Picture of the Day</h2>
+                        <div>
 
-{% if apod %}
+                            <label for="date">
+                                Date
+                            </label>
 
-<h3>{{ apod.title }}</h3>
+                            <input
+                                type="date"
+                                id="date"
+                                name="date"
+                                required>
 
-<p><strong>{{ apod.date }}</strong></p>
+                        </div>
 
-<img
-    src="{{ apod.image }}"
-    alt="{{ apod.title }}"
-    width="600">
 
-<p>{{ apod.explanation[:250] }}...</p>
+                        <div>
 
-<p><em>Image Credit: {{ apod.copyright }}</em></p>
+                            <label for="time">
+                                Time
+                            </label>
 
-{% endif %}
+                            <input
+                                type="time"
+                                id="time"
+                                name="time"
+                                required>
 
-<hr>
-    
-    <form action="{{ url_for('details') }}" method="POST">
+                        </div>
 
-        
-        <!-- LOCATION SECTION -->
+                    </div>
 
-        <section class="card">
+                </section>
+                 
+                
+                <!-- ERROR MESSAGE -->
 
-            <h2> Location</h2>
+                <p id="error-message"
+                   class="error-message">
 
-            <p>
-                Enter either a city name or your latitude and longitude.
-            </p>
+                    {{ error if error else "" }}
 
-            <label for="city">City / Town</label>
+                </p>
 
-            <input
-                type="text"
-                id="city"
-                name="city"
-                placeholder="Example: Melbourne">
 
-            <div class="divider">
-                <span>OR</span>
-            </div>
+                <!-- SEARCH -->
 
-            <div class="coordinate-grid">
+                <button
+                    class="search-btn"
+                    type="submit">
 
-                <div>
-                    <label for="lat">Latitude</label>
+                    Search the Sky
 
-                    <input
-                        type="text"
-                        id="lat"
-                        name="lat"
-                        placeholder="-37.8136">
-                </div>
+                </button>
 
-                <div>
-                    <label for="lng">Longitude</label>
+            </form>
 
-                    <input
-                        type="text"
-                        id="lng"
-                        name="lng"
-                        placeholder="144.9631">
-                </div>
+            <!-- HISTORY BUTTON -->
 
-            </div>
+            <form
+                action="{{ url_for('history') }}"
+                method="GET"
+                class="history-form">
 
-            <button
-                type="button"
-                class="secondary-btn"
-                onclick="useMyLocation()">
+                <button
+                    type="submit"
+                    class="secondary-btn">
 
-                 Use Current Location
+                    View Search History
 
-            </button>
+                </button>
 
-        </section>
+            </form>
 
-        <!-- DATE/TIME SECTION -->
 
-        <section class="card">
+            <!-- FEATURES -->
 
-            <h2>Observation Time</h2>
+            <section class="card features-card">
 
-            <div class="date-grid">
+                <h2>What You'll See</h2>
 
-                <div>
+                <ul class="features">
 
-                    <label for="date">Date</label>
+                    <li>Visible planets</li>
 
-                    <input
-                        type="date"
-                        id="date"
-                        name="date"
-                        required>
+                    <li>Altitude and azimuth</li>
 
-                </div>
+                    <li>Cloud cover forecast</li>
 
-                <div>
+                    <li>Temperature and weather conditions</li>
 
-                    <label for="time">Time</label>
+                    <li>Viewing recommendation</li>
 
-                    <input
-                        type="time"
-                        id="time"
-                        name="time"
-                        required>
+                    <li>Planet distance information</li>
 
-                </div>
+                </ul>
 
-            </div>
+            </section>
 
-        </section>
+        </main>
 
-        <!-- ERROR MESSAGE -->
+         <!-- RIGHT SIDE / NASA APOD -->
 
-        <p id="error-message" class="error-message"></p>
+        <aside class="apod-panel">
 
-        <!-- SEARCH BUTTON -->
+            <section class="card apod-card">
 
-        <button class="search-btn" type="submit">
+                <p class="small-heading">
+                    NASA FEATURE
+                </p>
 
-            Search the Sky
+                <h2>
+                    Astronomy Picture of the Day
+                </h2>
 
-        </button>
+                {% if apod %}
 
-    </form>
-    
-    <br><br>
 
-<form action="{{ url_for('history') }}" method="GET">
-    <button type="submit">View Search History</button>
-</form>
+                    <img
+                        src="{{ apod.image }}"
+                        alt="{{ apod.title }}"
+                        class="apod-image">
 
-    <!-- FEATURES -->
 
-    <section class="card">
+                    <h3>
+                        {{ apod.title }}
+                    </h3>
 
-        <h2>What You'll See</h2>
 
-        <ul class="features">
+                    <p class="apod-date">
 
-            <li>Visible planets</li>
+                        {{ apod.date }}
 
-            <li>Planet rise & set times</li>
+                    </p>
 
-            <li>Altitude and azimuth</li>
 
-            <li>Cloud cover forecast</li>
+                    <p class="apod-description">
 
-            <li>Temperature and weather conditions</li>
+                        {{ apod.explanation[:300] }}...
 
-            <li>Viewing recommendation</li>
+                    </p>
 
-        </ul>
 
-    </section>
+                    <p class="apod-credit">
+
+                        Image Credit:
+                        {{ apod.copyright }}
+
+                    </p>
+
+
+                {% else %}
+
+
+                    <p>
+                        Astronomy Picture of the Day
+                        is currently unavailable.
+                    </p>
+
+
+                {% endif %}
+
+            </section>
+
+        </aside>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            Celestia — Planet Visibility Tracker
+        </p>
+
+    </footer>
 
 </div>
+
 
 <script>
 
 function useMyLocation() {
 
-    const error = document.getElementById("error-message");
+    const error =
+        document.getElementById("error-message");
+
 
     if (!navigator.geolocation) {
 
@@ -279,6 +301,7 @@ function useMyLocation() {
 
         return;
     }
+
 
     navigator.geolocation.getCurrentPosition(
 
@@ -296,6 +319,7 @@ function useMyLocation() {
 
         },
 
+
         function() {
 
             error.textContent =
@@ -310,5 +334,6 @@ function useMyLocation() {
 </script>
 
 </body>
-</html>
 
+</html>
+ 

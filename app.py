@@ -10,13 +10,13 @@ from geopy.geocoders import Nominatim
 
 app = Flask(__name__)
 
-#-----------------
-#Skyfield Setup
-#-----------------
-#Load Skyfield Data
+#----------------------------
+#Skyfield Setup - Planet Data
+#----------------------------
+#Load Skyfield Data 
 ts = load.timescale()
 
-#Downloads de421.bsp
+#Downloads de421.bsp - all data for the planets in the solar system
 planets = load('de421.bsp')
 
 earth = planets['earth']
@@ -27,7 +27,7 @@ DATABASE = "planets.db"
 geolocator = Nominatim(user_agent="celestia")
 
 
-#Create the function for geolocation
+#Create the function for geolocation to get the latitude and longitude of the city entered by the user
 def get_coordinates(city):
     location = geolocator.geocode(city)
 
@@ -35,7 +35,7 @@ def get_coordinates(city):
         return location.latitude, location.longitude
     return None, None
 
-#Planet function for planets
+#Planet function for planet data to present in the details.html file
 def get_visible_planets(lat, lon, date, time):
     observer = earth + Topos(latitude_degrees=float(lat), longitude_degrees=float(lon))
 
@@ -86,9 +86,9 @@ def get_visible_planets(lat, lon, date, time):
 
     return results
 
-#------------------------
-#Open Meteo - Weather API 
-#------------------------
+#------------------------------------------------------------------------------
+#Open Meteo - Weather API get weather data for the given latitude and longitude
+#------------------------------------------------------------------------------
 def get_weather(lat, lon):
     url = url = (
         f"https://api.open-meteo.com/v1/forecast?"
@@ -105,9 +105,9 @@ def get_weather(lat, lon):
         "cloud_cover": data["current"]["cloud_cover"]
     }
 
-#-------------------------
-#NASA Image of the Day API
-#-------------------------
+#--------------------------------------------------------
+#NASA Image of the Day API for use in the index.html file 
+#--------------------------------------------------------
 def get_apod():
     url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_API_KEY}"
     response = requests.get(url)
@@ -123,7 +123,7 @@ def get_apod():
     }
 
 #---------------------------
-#Cloud Cover Rating Function
+#Cloud Cover Rating Function returns a rating based on cloud cover percentage
 #---------------------------
 def viewing_rating(cloud_cover):
     if cloud_cover < 20:
@@ -138,7 +138,7 @@ def viewing_rating(cloud_cover):
         return "Very Poor"
 
 #---------------
-#Database Setup
+#Database Setup for Search History
 #---------------
 def get_db():
     conn = sqlite3.connect(DATABASE)
@@ -174,7 +174,7 @@ def create_tables():
     conn.commit()
     conn.close()
 
-#Save search
+#Save search history to the database
 def save_search(city, lat, lon, date, time):
     conn = get_db()
     cursor = conn.cursor()
@@ -202,17 +202,17 @@ def get_search_history():
     return history 
 
 #------------
-#App Routing
+#App Routing - Includes Home, Details, and History Routes
 #------------
 
-#Home Route
+#Home Route to Index.html file (MAIN PAGE)
 @app.route("/")
 def home():
     history = get_search_history()
     apod = get_apod()
     return render_template("index.html", history=history, apod=apod)
 
-
+#Route to Details.html file (RESULTS PAGE)
 @app.route("/details", methods=["POST"])
 def details():
     city = request.form.get("city")
@@ -244,7 +244,7 @@ def details():
         weather=weather
 
     )
-#Search History Route
+#Search History Route to history.html file (SEARCH HISTORY PAGE)
 @app.route("/history")
 def history():
 
