@@ -143,3 +143,60 @@ input:focus {
 
     background-color: #334155;
 }
+
+
+
+/* ---------- BUTTONS ---------- */
+
+button {
+    border: none;
+    border-radius: 8px;
+
+    padding: 11px 18px;
+
+    font-size: 1rem;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
+
+.search-btn {
+    width: 100%;
+
+    background-color: #2563eb;
+    color: white;
+
+    margin-top: 5px;
+}
+
+.search-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.secondary-btn {
+    background-color: #334155;
+    color: white;
+
+    margin-top: 18px;
+}
+
+.secondary-btn:hover {
+    background-color: #475569;
+}
+
+.history-form {
+    margin-bottom: 20px;
+}
+
+.history-form .secondary-btn {
+    width: 100%;
+    margin-top: 0;
+}
