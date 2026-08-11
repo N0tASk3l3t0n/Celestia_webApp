@@ -1,0 +1,13 @@
+/* ---------- Basic reset ---------- */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0b1120;
+    color: #e5e7eb;
+    line-height: 1.6;
+}
