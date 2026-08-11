@@ -1,0 +1,145 @@
+/* =========================================
+   CELESTIA - MAIN STYLESHEET
+   ========================================= */
+
+
+/* ---------- GENERAL ---------- */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #08111f;
+    color: #e5e7eb;
+    line-height: 1.6;
+}
+
+.page-container {
+    width: min(1200px, 92%);
+    margin: 0 auto;
+    padding: 35px 0;
+}
+
+
+/* ---------- HEADER ---------- */
+
+.site-header {
+    margin-bottom: 30px;
+}
+
+.site-header h1 {
+    margin: 0;
+    font-size: 3rem;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    margin-top: 5px;
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+
+/* ---------- HEADINGS ---------- */
+
+h1,
+h2,
+h3 {
+    color: #f8fafc;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.section-description {
+    color: #94a3b8;
+}
+/* ---------- CARDS ---------- */
+
+.card {
+    background-color: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.22);
+}
+
+
+/* ---------- FORMS ---------- */
+
+label {
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+
+    color: #cbd5e1;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border: 1px solid #334155;
+    border-radius: 8px;
+
+    background-color: #0f172a;
+    color: #ffffff;
+
+    font-size: 1rem;
+}
+
+input::placeholder {
+    color: #64748b;
+}
+
+input:focus {
+    outline: none;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.15);
+}
+
+
+/* ---------- COORDINATE + DATE GRIDS ---------- */
+
+.coordinate-grid,
+.date-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+
+/* ---------- DIVIDER ---------- */
+
+.divider {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 22px 0;
+
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+
+    height: 1px;
+
+    background-color: #334155;
+}
